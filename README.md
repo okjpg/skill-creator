@@ -21,27 +21,22 @@ Exemplos de skills que você pode criar com esse repositório:
 
 ## Como instalar
 
-### Claude Code
+### Uma linha (Claude Code + OpenClaw)
 
-1. Baixe este repositório:
 ```bash
-git clone https://github.com/okjpg/skill-creator ~/.claude/skills/criar-skill
+curl -fsSL https://raw.githubusercontent.com/okjpg/skill-creator/main/install.sh | bash
 ```
 
-2. Dentro da pasta baixada, renomeie o arquivo:
-```bash
-mv ~/.claude/skills/criar-skill/SKILL.md ~/.claude/skills/criar-skill/SKILL.md
-```
-(já está no lugar certo — só confirmar que o arquivo se chama `SKILL.md`)
+O script detecta automaticamente se você tem Claude Code, OpenClaw, ou ambos — e instala em todos os ambientes encontrados.
 
-3. Abra o Claude Code e teste:
+Depois da instalação, abra seu agente e digite:
 ```
 /criar-skill
 ```
 
 ### Telegram (via agente de IA)
 
-Copie o conteúdo de `prompt-instalacao.md` e envie para o seu agente no Telegram. O agente vai guiar a instalação passo a passo.
+Copie o conteúdo de `prompt-instalacao.md` e envie para o seu agente no Telegram. O agente vai executar a instalação automaticamente.
 
 ---
 
