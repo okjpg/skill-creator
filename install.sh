@@ -50,7 +50,7 @@ install_claude_code() {
 
   if [ -d "$dest" ]; then
     warn "Skill já instalada em $dest"
-    read -r -p "  Sobrescrever? (s/N): " confirm
+    read -r -p "  Sobrescrever? (s/N): " confirm < /dev/tty
     [[ "$confirm" =~ ^[sS]$ ]] || { warn "Pulando Claude Code."; return; }
   fi
 

@@ -136,10 +136,12 @@ Executar TODOS os 10 checks antes de mostrar o SKILL.md gerado. Não pular nenhu
 
 1. Executar `op --version` para verificar se 1Password CLI está disponível.
 2. **Se op disponível:**
-   - Listar itens: `op item list --vault "{SEU_VAULT}"`
+   - Descobrir vaults: `op vault list --format=json`
+   - Se há mais de 1 vault: perguntar "Qual vault usar?" e listar as opções.
+   - Se há apenas 1 vault: usar automaticamente.
    - Se credencial já existe no vault: substituir no SKILL.md por:
-     `op item get "{NOME_DO_ITEM}" --vault "{SEU_VAULT}" --field credential --reveal`
-   - Se não existe: criar com `op item create --category login --vault "{SEU_VAULT}"`,
+     `op item get "{NOME_DO_ITEM}" --vault "{VAULT_ESCOLHIDO}" --field credential --reveal`
+   - Se não existe: criar com `op item create --category login --vault "{VAULT_ESCOLHIDO}"`,
      depois referenciar conforme acima.
 3. **Se op ausente:**
    - Salvar credencial no `.env` do projeto atual (ou `~/.claude/.env` se não houver projeto).
@@ -224,7 +226,7 @@ Guia completo de refinamento com exemplo real: `references/guia-refinamento.md`
 - **Modo 1 sem histórico relevante:** "Não encontrei um workflow executado nessa sessão. Quer colar um processo ou criar algo do zero?"
 - **Skill com nome já existente:** "Já existe uma skill chamada {nome}. Deseja sobrescrever, renomear ou cancelar?"
 - **Workflow com mais de 50 etapas:** Sugerir dividir em 2-3 skills menores antes de gerar. Apresentar sugestão de como dividir.
-- **Usuário cancela durante entrevista:** Salvar brief parcial em `~/.claude/skills/criar-skill/drafts/{nome}-draft.md` e informar o caminho.
+- **Usuário cancela durante entrevista:** Criar pasta `~/.claude/skills/criar-skill/drafts/` se não existir, salvar brief parcial em `drafts/{nome}-draft.md` e informar o caminho.
 - **GitHub sem autenticação gh CLI:** "gh CLI não autenticado. Execute `gh auth login` e tente de novo."
 - **op CLI disponível mas não autenticado:** "1Password CLI encontrado mas não autenticado. Execute `op signin` ou use .env como alternativa."
 
