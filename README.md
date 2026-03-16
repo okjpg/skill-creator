@@ -133,6 +133,7 @@ Guia completo: `references/guia-refinamento.md`
 ```
 skill-creator/
 ├── SKILL.md                        # A skill em si (instalar aqui)
+├── wizard.html                     # Wizard visual (abrir no browser)
 ├── README.md                       # Este arquivo
 ├── LICENSE                         # MIT
 ├── prompt-instalacao.md            # Prompt para configurar via agente
@@ -142,6 +143,16 @@ skill-creator/
     ├── skill-anatomy.md            # Template de anatomia de uma skill
     └── guia-refinamento.md         # Guia de refinamento pós-deploy
 ```
+
+### Wizard visual
+
+Se preferir uma interface visual, abra o `wizard.html` no browser:
+
+```bash
+open wizard.html
+```
+
+O wizard guia você por 4 passos e gera o SKILL.md + evals.json prontos para copiar ou baixar. Funciona 100% offline, sem servidor.
 
 ---
 
