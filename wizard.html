@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skill Creator — Pixel Educação</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -514,7 +515,7 @@
 
       <div class="output-actions">
         <button class="btn btn-primary" onclick="copyOutput()">Copiar</button>
-        <button class="btn btn-secondary" onclick="downloadFiles()">Download arquivos</button>
+        <button class="btn btn-secondary" onclick="downloadFiles()">Download .zip</button>
         <button class="btn btn-secondary" onclick="reset()">Criar outra</button>
       </div>
 
@@ -891,18 +892,52 @@ function copyOutput() {
 }
 
 function downloadFiles() {
-  downloadFile('SKILL.md', generatedSkill);
-  setTimeout(() => downloadFile('evals.json', generatedEvals), 300);
-}
+  const d = getData();
+  const name = d.name || 'minha-skill';
 
-function downloadFile(filename, content) {
-  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  const readme = `# ${name}
+
+## Como instalar
+
+### Claude Code
+1. Copie a pasta "${name}/" para ~/.claude/skills/
+2. Reinicie o Claude Code
+3. Digite /${name} para usar
+
+### OpenClaw
+1. Copie o conteúdo do SKILL.md para o seu workspace de skills
+2. A skill estará disponível no seu agente
+
+## Estrutura
+
+- SKILL.md — O cérebro da skill (workflow, regras, edge cases)
+- evals/evals.json — Casos de teste para validar que a skill funciona
+
+## Refinamento
+
+A skill pode não sair perfeita na primeira vez. Rode com um input real,
+veja o que saiu errado, e corrija o passo no SKILL.md. Cada ajuste torna
+a skill mais precisa. 2-3 rodadas de refinamento é normal.
+`;
+
+  const zip = new JSZip();
+  const folder = zip.folder(name);
+  folder.file('SKILL.md', generatedSkill);
+  folder.file('README.md', readme);
+  const evalsFolder = folder.folder('evals');
+  evalsFolder.file('evals.json', generatedEvals);
+
+  zip.generateAsync({ type: 'blob' }).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name + '.zip';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('ZIP baixado: ' + name + '.zip');
+  });
 }
 
 function reset() {
